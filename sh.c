@@ -3,7 +3,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-void dropnl(char *src);
+#include "crikey.h"
 
 int main(void)
 {
@@ -16,9 +16,8 @@ int main(void)
 
 	while (1)
 	{
-		printf("ʕ•ᴥ•ʔ ");
+		printf("⚡ ");
 		getline(&input, &len, stdin);
-		printf("len: %u\n", (unsigned int)len);
 		dropnl(input);
 		params[0] = input;
 
