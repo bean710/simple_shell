@@ -14,9 +14,10 @@ int main(void)
 
 	while (1)
 	{
-		printf("[($)] ");
+		printf("ʕ•ᴥ•ʔ ");
 		getline(&input, &len, stdin);
-		input[len - 1] = '\0';
+		printf("len: %u\n", (unsigned int)len);
+		input[len - 2] = '\0';
 		params[0] = input;
 
 		if (stat(params[0], &ret) != -1)
