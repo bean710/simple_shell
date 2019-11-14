@@ -3,8 +3,6 @@
 #include <unistd.h>
 #include <sys/stat.h>
 
-void dropnl(char *src);
-
 int main(void)
 {
 	char *input = NULL;
@@ -18,7 +16,7 @@ int main(void)
 	{
 		printf("[($)] ");
 		getline(&input, &len, stdin);
-		dropnl(input);
+		input[len - 1] = '\0';
 		params[0] = input;
 
 		if (stat(params[0], &ret) != -1)
@@ -34,16 +32,4 @@ int main(void)
 
 	free (input);
 	return (0);
-}
-
-void dropnl(char *src)
-{
-	for (; *src; src++)
-	{
-		if (*src == '\n')
-		{
-			*src = '\0';
-			return;
-		}
-	}
 }
