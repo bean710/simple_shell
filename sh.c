@@ -40,7 +40,7 @@ int main(void)
 				wait(&status);
 		}
 		else
-			_print("Command not found: %s\n", params[0]);
+			_print_s("Command not found: ", params[0]);
 	}
 
 	free (input);
