@@ -31,8 +31,9 @@ int main(void)
 			params[i] = tmp->str;
 
 		params[i] = NULL;
-
-		if (stat(params[0], &ret) != -1)
+		/*new*/
+		translateExec(params);
+		if (ustat(params[0], &ret) != -1)
 		{
 			if (!fork())
 				execve(params[0], params, NULL);
