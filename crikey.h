@@ -6,6 +6,7 @@
 #include <unistd.h>
 #include <sys/stat.h>
 #include <string.h>
+#include <sys/wait.h>
 
 typedef struct token_s
 {

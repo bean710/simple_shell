@@ -8,8 +8,7 @@
  */
 int _print(char *src)
 {
-	size_t len;
-	int ret;
+	int len, ret;
 	
 	for (len = 0; src[len]; ++len)
 		;
@@ -27,7 +26,7 @@ int _print(char *src)
 
 int _print_s(char *src, char *end)
 {
-	size_t len, tot = 0;
+	int len, tot = 0;
 	int ret;
 	
 	for (len = 0; src[len]; ++len)

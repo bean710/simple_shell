@@ -5,7 +5,6 @@ int main(void)
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	char *stat_buff = NULL;
 	int status;
 	struct stat ret;
 
@@ -18,7 +17,12 @@ int main(void)
 		n_params = NULL;
 
 		_print("⚡ ");
-		getline(&input, &len, stdin);
+		if (getline(&input, &len, stdin) == -1)
+		{
+			print("\n");
+			exit(70);
+		}
+
 		dropnl(input);
 		size = tokenize(&n_params, input);
 
