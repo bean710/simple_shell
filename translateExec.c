@@ -36,7 +36,7 @@ void translateExec(char **params, char **env)
 {
 	/*if (_strcmp(params[0], "ls") == 0)
 		params[0] = "/bin/ls";*/
-    unsigned int i, strLen = 0, x = 0;
+    unsigned int i, strLen = 0, x = 0, y = 0;
 	char *pathStr, *tmp = NULL, char * path, *tmp2 = NULL;
 	char *concatenatedString;
 
@@ -59,17 +59,14 @@ void translateExec(char **params, char **env)
 
 			for (x = 0; tmp2[x] != '\0'; x++)
 				;
-
 			while (tmp2)
 			{
-				concatenatedString = malloc (sizeof(char) * x);
-				_strcat(
-				if (stat(params[0], &ret) != -1)
-				{
-						
-				}
+				concatenatedString = malloc ((sizeof(char) * (x + y)) + 1);
+				_strcat(concatenatedString, tmp2);
+				_strcat(concatenatedString, params[0]);
+				
+				printf("\n%s\n", concatenatedString);
 				free(concatenatedString);
-
 				tmp2 = (NULL, ":");
 			}
 		}
