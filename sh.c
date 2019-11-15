@@ -17,7 +17,7 @@ int main(void)
 	{
 		n_params = NULL;
 
-		printf("⚡ ");
+		_print("⚡ ");
 		getline(&input, &len, stdin);
 		dropnl(input);
 		size = tokenize(&n_params, input);
@@ -40,7 +40,7 @@ int main(void)
 				wait(&status);
 		}
 		else
-			printf("Command not found: %s\n", params[0]);
+			_print("Command not found: %s\n", params[0]);
 	}
 
 	free (input);

@@ -17,5 +17,6 @@ void dropnl(char *src);
 token_t *append_token(token_t **head, char *str);
 char *_strdup(const char *src);
 int tokenize(token_t **head, char *input);
+int _print(char *src);
 
 #endif
