@@ -14,7 +14,8 @@ typedef struct token_s
 } token_t;
 
 void dropnl(char *src);
-token_t *append_token(token_t **head, const char *str);
+token_t *append_token(token_t **head, char *str);
 char *_strdup(const char *src);
+int tokenize(token_t **head, char *input);
 
 #endif

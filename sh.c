@@ -47,6 +47,10 @@ int main(void)
 	return (0);
 }
 
+/**
+ * dropnl - Removes the newline from the end of a string
+ * @src: Pointer to the string to manipulate
+ */
 void dropnl(char *src)
 {
 	for (; *src; src++)
@@ -57,21 +61,4 @@ void dropnl(char *src)
 			return;
 		}
 	}
-}
-
-int tokenize(token_t **head, char *input)
-{
-	char *tmp = NULL;
-	int len = 0;
-
-	tmp = strtok(input, " ");
-
-	while (tmp != NULL)
-	{
-		len++;
-		append_token(head, tmp);
-		tmp = strtok(NULL, " ");
-	}
-
-	return (len);
 }
