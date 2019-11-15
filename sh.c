@@ -1,25 +1,36 @@
-#include <stdio.h>
-#include <stdlib.h>
-#include <unistd.h>
-#include <sys/stat.h>
-
 #include "crikey.h"
 
 int main(void)
 {
 	char *input = NULL;
 	size_t len = 0;
-	char *params[] = {NULL, NULL};
+	char **params;
 	char *stat_buff = NULL;
 	int status;
 	struct stat ret;
 
+	token_t *n_params = NULL;
+	token_t *tmp;
+	int size, i;
+
 	while (1)
 	{
+		n_params = NULL;
+
 		printf("⚡ ");
 		getline(&input, &len, stdin);
 		dropnl(input);
-		params[0] = input;
+		size = tokenize(&n_params, input);
+
+		if (size == 0)
+			continue;
+
+		params = malloc(sizeof(char *) * (size + 1));
+
+		for (i = 0, tmp = n_params; tmp; tmp = tmp->next, ++i)
+			params[i] = tmp->str;
+
+		params[i] = NULL;
 
 		if (stat(params[0], &ret) != -1)
 		{
@@ -46,4 +57,21 @@ void dropnl(char *src)
 			return;
 		}
 	}
+}
+
+int tokenize(token_t **head, char *input)
+{
+	char *tmp = NULL;
+	int len = 0;
+
+	tmp = strtok(input, " ");
+
+	while (tmp != NULL)
+	{
+		len++;
+		append_token(head, tmp);
+		tmp = strtok(NULL, " ");
+	}
+
+	return (len);
 }
