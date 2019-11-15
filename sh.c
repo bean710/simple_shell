@@ -19,7 +19,7 @@ int main(void)
 		_print("⚡ ");
 		if (getline(&input, &len, stdin) == -1)
 		{
-			print("\n");
+			_print("\n");
 			exit(70);
 		}
 
@@ -35,6 +35,8 @@ int main(void)
 			params[i] = tmp->str;
 
 		params[i] = NULL;
+
+		check_builtins(size, params);
 
 		if (stat(params[0], &ret) != -1)
 		{
@@ -65,4 +67,23 @@ void dropnl(char *src)
 			return;
 		}
 	}
+}
+
+/**
+ * check_builtins - checks for builtin functions and runs
+ * @argnum: Number of arguments
+ * @args: Pointer to the first pointer in an array of pointers each pointing
+ * to a string
+ *
+ * Return: 1 if builtin found, 0 otherwise
+ */
+int check_builtins(int argnum, char **args)
+{
+	if (argnum == 0)
+		return (0);
+
+	if (_strcmp(args[0], "exit"))
+		exit (0);
+
+	return (0);
 }

@@ -52,3 +52,23 @@ int _print_s(char *src, char *end)
 
 	return (ret);
 }
+
+/**
+ * strcmp - compares two strings
+ * @s1: First string
+ * @s2: Second string
+ *
+ * Return: 1 for match, 0 for not a match
+ */
+int _strcmp(char *s1, char *s2)
+{
+	for (; *s1 && *s2; ++s1, ++s2)
+	{
+		if (*s1 != *s2)
+			return (0);
+	}
+	if (*s1 != *s2)
+		return (0);
+
+	return (1);
+}
