@@ -46,7 +46,13 @@ char *_strcpy(char *dest, char *src)
 	return (dest);
 }
 
-
+/**
+ * translateExec - executes the file to a string
+ * @params: contains the parameters from the user input
+ * @env: contains the environment variables
+ *
+ * Return: returns char string array
+ */
 int translateExec(char **params, char **env)
 {
 	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, status, j = 0;
