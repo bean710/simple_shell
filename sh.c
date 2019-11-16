@@ -17,7 +17,7 @@ int main(int argc, char **argv, char **env)
 	is_term = isatty(STDIN_FILENO);
 
 	while (1)
-	{		
+	{
 		n_params = NULL;
 
 		if (is_term)
@@ -61,7 +61,7 @@ int main(int argc, char **argv, char **env)
 			if (!fork())
 				execve(params[0], params, NULL);
 			else
-				wait(&status);	
+				wait(&status);
 		}
 		else if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
@@ -113,7 +113,7 @@ int check_builtins(int argnum, char **args, char **env)
 			exit_val = atoi(args[1]);
 			exit(exit_val);
 		}
-		exit (0);
+		exit(0);
 	}
 	else if (_strcmp(args[0], "env"))
 	{
