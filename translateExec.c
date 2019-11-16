@@ -1,5 +1,12 @@
 #include "crikey.h"
 
+/**
+ * _strcat - concatenates a string
+ * @dest: the string to be concatenated
+ * @src: the string to add to dest
+ *
+ * Return: returns char string array
+ */
 char *_strcat(char *dest, char *src)
 {
 	int countDestLen = 0;
@@ -24,7 +31,6 @@ char *_strcat(char *dest, char *src)
  * @src: pointer
  *
  * Return: returns char string array
- *
  */
 char *_strcpy(char *dest, char *src)
 {
