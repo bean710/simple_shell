@@ -18,21 +18,6 @@ char *_strcat(char *dest, char *src)
 }
 
 
-int _strcmp(char *s1, char *s2)
-{
-	while (*s1)
-	{
-		if (*s1 != *s2)
-			break;
-
-		s1++;
-		s2++;
-	}
-
-	return (*s1 - *s2);
-}
-
-
 /**
  * _strcpy - copies the string pointed to by src
  * @dest: pointer
