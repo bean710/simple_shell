@@ -43,10 +43,9 @@ char *_strcpy(char *dest, char *src)
 
 int translateExec(char **params, char **env)
 {
-	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, status;
+	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, status, j = 0;
 	char *path, *enValue, *enVariable, *enVariableToken, *testExec;
 	char *param = params[0];
-	struct stat ret;
 
 	/*gets Parameter[0] length*/
 	for (paramLen = 0; param[paramLen]; paramLen++)
@@ -55,8 +54,7 @@ int translateExec(char **params, char **env)
 	/*loop through each instance variable in environment*/
 	while (env[i])
 	{
-		char *enVariable = env[i];
-		// printf("%s\n", env[i]);
+		enVariable = env[i];
 
 		for (pathLen = 0; enVariable[pathLen]; pathLen++)
 			;
@@ -77,7 +75,10 @@ int translateExec(char **params, char **env)
 			{
 				for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
 					;
-				testExec = malloc((sizeof(char) * (paramLen + tokLen)) + 2);
+				testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
+				for (j = 0; j < paramLen + tokLen + 2; ++j)
+					testExec[j] = '\0';
+
 				if(testExec == NULL)
 					exit(1);
 				_strcat(testExec, enVariableToken);
@@ -91,14 +92,17 @@ int translateExec(char **params, char **env)
 					else
 						wait(&status);
 				}*/
-				// printf("%s\n", testExec);
 				if (access(testExec, X_OK) == 0)
 				{
-					printf("%s\n", testExec);
+					if (!fork())
+						execve(testExec, params, NULL);
+					else
+						wait(&status);	
 				}
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
 			}
+			free(path);
 			break;
 		}
 		i++;

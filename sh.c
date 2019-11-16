@@ -5,8 +5,7 @@ int main(int argc, char **argv, char **env)
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	int status, is_term;
-	struct stat ret;
+	int is_term;
 
 	token_t *n_params = NULL;
 	token_t *tmp;
@@ -50,7 +49,11 @@ int main(int argc, char **argv, char **env)
 
 		params[i] = NULL;
 		if (check_builtins(size, params, env))
+		{
+			free(params);
+			freenodes(n_params);
 			continue;
+		}
 
 		if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
