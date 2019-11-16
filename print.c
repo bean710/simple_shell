@@ -24,6 +24,13 @@ int _print(char *src)
 	return (ret);
 }
 
+/**
+ * _print_s - prints a string to the standard output
+ * @src: first part of a string
+ * @end: second part of a string
+ *
+ * Return: 1 for match, 0 for not a match
+ */
 int _print_s(char *src, char *end)
 {
 	int len, tot = 0;
@@ -54,7 +61,7 @@ int _print_s(char *src, char *end)
 }
 
 /**
- * strcmp - compares two strings
+ * _strcmp - compares two strings
  * @s1: First string
  * @s2: Second string
  *
