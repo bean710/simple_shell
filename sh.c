@@ -56,16 +56,17 @@ int main(int argc, char **argv, char **env)
 		}
 
 
-		if (access(params[0], X_OK) == 0)
+
+		if (!translateExec(params, env))
+			printf("Command not found: %s\n", params[0]);
+		else if (access(params[0], X_OK) == 0)
 		{
+			printf("Found something!\n");
 			if (!fork())
 				execve(params[0], params, NULL);
 			else
 				wait(&status);	
 		}
-		else if (!translateExec(params, env))
-			printf("Command not found: %s\n", params[0]);
-
 		free(params);
 		freenodes(n_params);
 	}
