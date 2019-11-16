@@ -8,9 +8,15 @@
 #include <string.h>
 #include <sys/wait.h>
 
+/**
+ * struct token_s - Structure that is a node, it handles the tokenized input
+ * from the user in shell
+ * @str: contains a pointer to a string that are tokens
+ * @next: a member that points to another node that is also a struct token_s
+ */
 typedef struct token_s
 {
-	char* str;
+	char *str;
 	struct token_s *next;
 } token_t;
 
