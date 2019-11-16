@@ -8,7 +8,6 @@
  *
  * Return: none
  */
-
 int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
@@ -105,7 +104,7 @@ void dropnl(char *src)
  * @argnum: Number of arguments
  * @args: Pointer to the first pointer in an array of pointers each pointing
  * to a string
- *
+ * @env: environment variable
  * Return: 1 if builtin found, 0 otherwise
  */
 int check_builtins(int argnum, char **args, char **env)
