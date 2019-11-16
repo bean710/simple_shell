@@ -56,6 +56,7 @@ int translateExec(char **params, char **env)
 	while (env[i])
 	{
 		char *enVariable = env[i];
+		// printf("%s\n", env[i]);
 
 		for (pathLen = 0; enVariable[pathLen]; pathLen++)
 			;
@@ -67,7 +68,7 @@ int translateExec(char **params, char **env)
 
 		/*check for PATH environment variable*/
 		enVariable = strtok(path, "=");
-		if(_strcmp(enVariable, "PATH") == 0)
+		if(_strcmp(enVariable, "PATH") == 1)
 		{
 			enValue = strtok(NULL, "=");
 			enVariableToken = strtok(enValue, ":");
@@ -90,10 +91,15 @@ int translateExec(char **params, char **env)
 					else
 						wait(&status);
 				}*/
-				printf("%s\n", testExec);
+				// printf("%s\n", testExec);
+				if (access(testExec, X_OK) == 0)
+				{
+					printf("%s\n", testExec);
+				}
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
 			}
+			break;
 		}
 		i++;
 		free(path);
