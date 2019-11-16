@@ -9,7 +9,7 @@
 int _print(char *src)
 {
 	int len, ret;
-	
+
 	for (len = 0; src[len]; ++len)
 		;
 
@@ -28,7 +28,7 @@ int _print_s(char *src, char *end)
 {
 	int len, tot = 0;
 	int ret;
-	
+
 	for (len = 0; src[len]; ++len)
 		;
 	tot += len;
@@ -40,7 +40,7 @@ int _print_s(char *src, char *end)
 	tot += len;
 
 	ret += write(STDOUT_FILENO, end, len);
-	
+
 	ret += write(STDOUT_FILENO, "\n", 1);
 	tot += 1;
 
