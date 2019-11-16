@@ -1,6 +1,6 @@
 #include "crikey.h"
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
 	size_t len = 0;
@@ -11,6 +11,9 @@ int main(void)
 	token_t *n_params = NULL;
 	token_t *tmp;
 	int size, i;
+
+	(void)argc;
+	(void)argv;
 
 	while (1)
 	{
@@ -36,7 +39,8 @@ int main(void)
 
 		params[i] = NULL;
 
-		check_builtins(size, params);
+		if (check_builtins(size, params, env))
+			continue;
 
 		if (stat(params[0], &ret) != -1)
 		{
@@ -77,13 +81,24 @@ void dropnl(char *src)
  *
  * Return: 1 if builtin found, 0 otherwise
  */
-int check_builtins(int argnum, char **args)
+int check_builtins(int argnum, char **args, char **env)
 {
+	size_t i;
+
 	if (argnum == 0)
 		return (0);
 
 	if (_strcmp(args[0], "exit"))
 		exit (0);
+	else if (_strcmp(args[0], "env"))
+	{
+		for (i = 0; env[i]; ++i)
+		{
+			_print(env[i]);
+			_print("\n");
+		}
+		return (1);
+	}
 
 	return (0);
 }
