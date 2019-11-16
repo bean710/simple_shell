@@ -5,7 +5,7 @@ int main(int argc, char **argv, char **env)
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	int is_term;
+	int is_term, status;
 
 	token_t *n_params = NULL;
 	token_t *tmp;
@@ -55,7 +55,15 @@ int main(int argc, char **argv, char **env)
 			continue;
 		}
 
-		if (!translateExec(params, env))
+
+		if (access(params[0], X_OK) == 0)
+		{
+			if (!fork())
+				execve(params[0], params, NULL);
+			else
+				wait(&status);	
+		}
+		else if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
 
 		free(params);
