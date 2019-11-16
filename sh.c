@@ -28,6 +28,7 @@ int main(int argc, char **argv, char **env)
 		{
 			free(params);
 			free(input);
+			freenodes(n_params);
 			if (is_term)
 			{
 				_print("\n");
@@ -61,10 +62,12 @@ int main(int argc, char **argv, char **env)
 		}
 		else
 			_print_s("Command not found: ", params[0]);
+
+		free(params);
+		freenodes(n_params);
 	}
 
-	free (params);
-	free (input);
+	free(input);
 	return (0);
 }
 
@@ -120,4 +123,16 @@ int check_builtins(int argnum, char **args, char **env)
 	}
 
 	return (0);
+}
+
+void freenodes(token_t *head)
+{
+	token_t *next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
 }
