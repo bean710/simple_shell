@@ -66,7 +66,7 @@ int translateExec(char **params, char **env)
 
 		/*check for PATH environment variable*/
 		enVariable = strtok(path, "=");
-		if(_strcmp(enVariable, "PATH") == 1)
+		if (_strcmp(enVariable, "PATH") == 1)
 		{
 			enValue = strtok(NULL, "=");
 			enVariableToken = strtok(enValue, ":");
@@ -79,25 +79,19 @@ int translateExec(char **params, char **env)
 				for (j = 0; j < paramLen + tokLen + 2; ++j)
 					testExec[j] = '\0';
 
-				if(testExec == NULL)
+				if (testExec == NULL)
 					exit(1);
 				_strcat(testExec, enVariableToken);
 				_strcat(testExec, "/");
 				_strcat(testExec, param);
 				_strcat(testExec, "\0");
-				/*if (ustat(testExec, &ret) != -1)
-				{
-					if (!fork())
-						execve(testExec, params, NULL);
-					else
-						wait(&status);
-				}*/
+
 				if (access(testExec, X_OK) == 0)
 				{
 					if (!fork())
 						execve(testExec, params, NULL);
 					else
-						wait(&status);	
+						wait(&status);
 				}
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
