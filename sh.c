@@ -1,5 +1,14 @@
 #include "crikey.h"
 
+/**
+ * main - main function of a program
+ * @argc: argument count
+ * @argv: argument vector
+ * @env: environment
+ *
+ * Return: none
+ */
+
 int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
