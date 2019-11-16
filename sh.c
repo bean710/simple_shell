@@ -5,7 +5,7 @@ int main(int argc, char **argv, char **env)
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	int status;
+	int status, is_term;
 	struct stat ret;
 
 	token_t *n_params = NULL;
@@ -15,15 +15,23 @@ int main(int argc, char **argv, char **env)
 	(void)argc;
 	(void)argv;
 
+	is_term = isatty(STDIN_FILENO);
+
 	while (1)
-	{
+	{		
 		n_params = NULL;
 
-		_print("⚡ ");
+		if (is_term)
+			_print("⚡ ");
+
 		if (getline(&input, &len, stdin) == -1)
 		{
-			_print("\n");
-			exit(70);
+			if (is_term)
+			{
+				_print("\n");
+				exit(70);
+			}
+			exit(0);
 		}
 
 		dropnl(input);
@@ -84,12 +92,20 @@ void dropnl(char *src)
 int check_builtins(int argnum, char **args, char **env)
 {
 	size_t i;
+	int exit_val;
 
 	if (argnum == 0)
 		return (0);
 
 	if (_strcmp(args[0], "exit"))
+	{
+		if (argnum > 1)
+		{
+			exit_val = atoi(args[1]);
+			exit(exit_val);
+		}
 		exit (0);
+	}
 	else if (_strcmp(args[0], "env"))
 	{
 		for (i = 0; env[i]; ++i)
