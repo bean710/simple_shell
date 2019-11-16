@@ -129,6 +129,12 @@ int check_builtins(int argnum, char **args, char **env)
 	return (0);
 }
 
+/**
+ * freenodes - frees the nodes to avoid memory leaks
+ * @head: points to the first node of a linked list
+ *
+ * Return: none
+ */
 void freenodes(token_t *head)
 {
 	token_t *next;
