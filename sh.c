@@ -54,7 +54,6 @@ int main(int argc, char **argv, char **env)
 
 		if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
-		}
 
 		free(params);
 		freenodes(n_params);
