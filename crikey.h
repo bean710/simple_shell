@@ -17,7 +17,8 @@ void dropnl(char *src);
 token_t *append_token(token_t **head, const char *str);
 char *_strdup(const char *src);
 int _strcmp(char *s1, char *s2);
-void translateExec(char **params);
-char *_strcat(char *dest, char *src)
+int translateExec(char **params, char **env);
+char *_strcat(char *dest, char *src);
+char *_strcpy(char *dest, char *src);
 
 #endif
