@@ -1,12 +1,19 @@
 #include "crikey.h"
 
+/**
+ * main - main function of a program
+ * @argc: argument count
+ * @argv: argument vector
+ * @env: environment
+ *
+ * Return: none
+ */
 int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	int status, is_term;
-	struct stat ret;
+	int is_term, status;
 
 	token_t *n_params = NULL;
 	token_t *tmp;
@@ -18,7 +25,7 @@ int main(int argc, char **argv, char **env)
 	is_term = isatty(STDIN_FILENO);
 
 	while (1)
-	{		
+	{
 		n_params = NULL;
 
 		if (is_term)
@@ -26,6 +33,9 @@ int main(int argc, char **argv, char **env)
 
 		if (getline(&input, &len, stdin) == -1)
 		{
+			free(params);
+			free(input);
+			freenodes(n_params);
 			if (is_term)
 			{
 				_print("\n");
@@ -46,22 +56,30 @@ int main(int argc, char **argv, char **env)
 			params[i] = tmp->str;
 
 		params[i] = NULL;
-
 		if (check_builtins(size, params, env))
-			continue;
-
-		if (stat(params[0], &ret) != -1)
 		{
+			free(params);
+			freenodes(n_params);
+			continue;
+		}
+
+
+
+		if (!translateExec(params, env))
+			printf("Command not found: %s\n", params[0]);
+		else if (access(params[0], X_OK) == 0)
+		{
+			printf("Found something!\n");
 			if (!fork())
 				execve(params[0], params, NULL);
 			else
 				wait(&status);
 		}
-		else
-			_print_s("Command not found: ", params[0]);
+		free(params);
+		freenodes(n_params);
 	}
 
-	free (input);
+	free(input);
 	return (0);
 }
 
@@ -86,7 +104,7 @@ void dropnl(char *src)
  * @argnum: Number of arguments
  * @args: Pointer to the first pointer in an array of pointers each pointing
  * to a string
- *
+ * @env: environment variable
  * Return: 1 if builtin found, 0 otherwise
  */
 int check_builtins(int argnum, char **args, char **env)
@@ -104,7 +122,7 @@ int check_builtins(int argnum, char **args, char **env)
 			exit_val = atoi(args[1]);
 			exit(exit_val);
 		}
-		exit (0);
+		exit(0);
 	}
 	else if (_strcmp(args[0], "env"))
 	{
@@ -117,4 +135,22 @@ int check_builtins(int argnum, char **args, char **env)
 	}
 
 	return (0);
+}
+
+/**
+ * freenodes - frees the nodes to avoid memory leaks
+ * @head: points to the first node of a linked list
+ *
+ * Return: none
+ */
+void freenodes(token_t *head)
+{
+	token_t *next;
+
+	while (head)
+	{
+		next = head->next;
+		free(head);
+		head = next;
+	}
 }
