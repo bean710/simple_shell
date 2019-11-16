@@ -32,45 +32,86 @@ int _strcmp(char *s1, char *s2)
 	return (*s1 - *s2);
 }
 
-void translateExec(char **params, char **env)
+
+/**
+ * _strcpy - copies the string pointed to by src
+ * @dest: pointer
+ * @src: pointer
+ *
+ * Return: returns char string array
+ *
+ */
+char *_strcpy(char *dest, char *src)
 {
-	/*if (_strcmp(params[0], "ls") == 0)
-		params[0] = "/bin/ls";*/
-    unsigned int i, strLen = 0, x = 0, y = 0;
-	char *pathStr, *tmp = NULL, char * path, *tmp2 = NULL;
-	char *concatenatedString;
+	int counter = 0;
 
-    i = 0;
-    while (env[i] != NULL)
-    {
-        /*printf("%s\n", env[i]);*/
-		pathStr = env[i];
-		tmp = strtok(input, "=");
+	while (src[counter])
+	{
+		dest[counter] = src[counter];
+		counter++;
+	}
 
-		while (tmp)
+	dest[counter] = '\0';
+	return (dest);
+}
+
+
+int translateExec(char **params, char **env)
+{
+	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, status;
+	char *path, *enValue, *enVariable, *enVariableToken, *testExec;
+	char *param = params[0];
+	struct stat ret;
+
+	/*gets Parameter[0] length*/
+	for (paramLen = 0; param[paramLen]; paramLen++)
+		;
+
+	/*loop through each instance variable in environment*/
+	while (env[i])
+	{
+		char *enVariable = env[i];
+
+		for (pathLen = 0; enVariable[pathLen]; pathLen++)
+			;
+
+		path = malloc(sizeof(char) * pathLen + 1);
+		if (path == NULL)
+			exit(1);
+		_strcpy(path, enVariable);
+
+		/*check for PATH environment variable*/
+		enVariable = strtok(path, "=");
+		if(_strcmp(enVariable, "PATH") == 0)
 		{
-			tmp = strtok(NULL, "=");
-		}
+			enValue = strtok(NULL, "=");
+			enVariableToken = strtok(enValue, ":");
 
-		if (_strcmp(tmp[0] == "PATH") == 0)
-		{
-			path = tmp[1];
-			tmp2 = strtok(path, ":");
-
-			for (x = 0; tmp2[x] != '\0'; x++)
-				;
-			while (tmp2)
+			while (enVariableToken)
 			{
-				concatenatedString = malloc ((sizeof(char) * (x + y)) + 1);
-				_strcat(concatenatedString, tmp2);
-				_strcat(concatenatedString, params[0]);
-				
-				printf("\n%s\n", concatenatedString);
-				free(concatenatedString);
-				tmp2 = (NULL, ":");
+				for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
+					;
+				testExec = malloc((sizeof(char) * (paramLen + tokLen)) + 2);
+				if(testExec == NULL)
+					exit(1);
+				_strcat(testExec, enVariableToken);
+				_strcat(testExec, "/");
+				_strcat(testExec, param);
+				_strcat(testExec, "\0");
+				/*if (ustat(testExec, &ret) != -1)
+				{
+					if (!fork())
+						execve(testExec, params, NULL);
+					else
+						wait(&status);
+				}*/
+				printf("%s\n", testExec);
+				enVariableToken = strtok(NULL, ":");
+				free(testExec);
 			}
 		}
-        i++;
-    }
-    return (0);
+		i++;
+		free(path);
+	}
+	return (1);
 }
