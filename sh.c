@@ -26,6 +26,8 @@ int main(int argc, char **argv, char **env)
 
 		if (getline(&input, &len, stdin) == -1)
 		{
+			free(params);
+			free(input);
 			if (is_term)
 			{
 				_print("\n");
@@ -61,6 +63,7 @@ int main(int argc, char **argv, char **env)
 			_print_s("Command not found: ", params[0]);
 	}
 
+	free (params);
 	free (input);
 	return (0);
 }
