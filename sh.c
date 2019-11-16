@@ -1,6 +1,6 @@
 #include "crikey.h"
 
-int main(void)
+int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
 	size_t len = 0;
@@ -17,7 +17,7 @@ int main(void)
 	{
 		n_params = NULL;
 
-		printf("⚡ ");
+		printf("⚡ ");;
 		getline(&input, &len, stdin);
 		dropnl(input);
 		size = tokenize(&n_params, input);
@@ -31,16 +31,14 @@ int main(void)
 			params[i] = tmp->str;
 
 		params[i] = NULL;
-		/*new*/
-		translateExec(params);
-		if (ustat(params[0], &ret) != -1)
+		/*if (ustat(params[0], &ret) != -1)
 		{
 			if (!fork())
 				execve(params[0], params, NULL);
 			else
 				wait(&status);
-		}
-		else
+		}*/
+		if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
 	}
 
