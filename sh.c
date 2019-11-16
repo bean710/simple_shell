@@ -5,7 +5,6 @@ int main(int argc, char **argv, char **env)
 	char *input = NULL;
 	size_t len = 0;
 	char **params;
-	char *stat_buff = NULL;
 	int status;
 	struct stat ret;
 
@@ -17,8 +16,13 @@ int main(int argc, char **argv, char **env)
 	{
 		n_params = NULL;
 
-		printf("⚡ ");;
-		getline(&input, &len, stdin);
+		_print("⚡ ");
+		if (getline(&input, &len, stdin) == -1)
+		{
+			print("\n");
+			exit(70);
+		}
+
 		dropnl(input);
 		size = tokenize(&n_params, input);
 
@@ -40,12 +44,17 @@ int main(int argc, char **argv, char **env)
 		}*/
 		if (!translateExec(params, env))
 			printf("Command not found: %s\n", params[0]);
+		}
 	}
 
 	free (input);
 	return (0);
 }
 
+/**
+ * dropnl - Removes the newline from the end of a string
+ * @src: Pointer to the string to manipulate
+ */
 void dropnl(char *src)
 {
 	for (; *src; src++)
@@ -56,21 +65,4 @@ void dropnl(char *src)
 			return;
 		}
 	}
-}
-
-int tokenize(token_t **head, char *input)
-{
-	char *tmp = NULL;
-	int len = 0;
-
-	tmp = strtok(input, " ");
-
-	while (tmp != NULL)
-	{
-		len++;
-		append_token(head, tmp);
-		tmp = strtok(NULL, " ");
-	}
-
-	return (len);
 }

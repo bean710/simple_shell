@@ -1,6 +1,14 @@
 #include "crikey.h"
 
-token_t *append_token(token_t **head, const char *str)
+/**
+ * append_token - Appends a string to the end of a linked list
+ * @head: Pointer to a pointer pointing to the first node in the linked list
+ * @str: Pointer to the first character of the string that should be assigned
+ * to the new node
+ *
+ * Return: Pointer to the newly added node
+ */
+token_t *append_token(token_t **head, char *str)
 {
 	token_t *node = malloc(sizeof(token_t));
 	token_t *tmp = *head;
@@ -8,17 +16,7 @@ token_t *append_token(token_t **head, const char *str)
 	if (node == NULL)
 		return (NULL);
 
-	if (str == NULL)
-		node->str = NULL;
-	else
-	{
-		node->str = _strdup(str);
-		if (!node->str)
-		{
-			free(node);
-			return (NULL);
-		}
-	}
+	node->str = str;
 	node->next = NULL;
 
 	if (*head != NULL)
@@ -33,22 +31,27 @@ token_t *append_token(token_t **head, const char *str)
 	return (node);
 }
 
-char *_strdup(const char *src)
+/**
+ * tokenize - Tokenizes a string into a linked list
+ * @head: Pointer to a pointer pointing to the first item in the linked list
+ * of tokens
+ * @input: The input string to be tokenized by the " " delimiter
+ *
+ * Return: Number of tokens tokenized
+ */
+int tokenize(token_t **head, char *input)
 {
-	size_t len, i;
-	char *ret;
+	char *tmp = NULL;
+	int len = 0;
 
-	for (len = 0; src[len]; len++)
-		;
+	tmp = strtok(input, " ");
 
-	ret = malloc(sizeof(char) * (len + 1));
-	if (!ret)
-		return (NULL);
+	while (tmp != NULL)
+	{
+		len++;
+		append_token(head, tmp);
+		tmp = strtok(NULL, " ");
+	}
 
-	for (i = 0; src[i]; i++)
-		ret[i] = src[i];
-
-	ret[i] = '\0';
-
-	return (ret);
+	return (len);
 }
