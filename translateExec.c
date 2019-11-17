@@ -81,10 +81,12 @@ int translateExec(char **params, char **env)
 		if (_strcmp(enVariable, "PATH") == 1)
 		{
 			enValue = strtok(NULL, "=");
+			printf("enValue: %s\n", enValue);
 			enVariableToken = strtok(enValue, ":");
 
 			while (enVariableToken)
 			{
+				_print_s("Token: ", enVariableToken);
 				for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
 					;
 				testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
@@ -103,7 +105,12 @@ int translateExec(char **params, char **env)
 					if (!fork())
 						execve(testExec, params, NULL);
 					else
-						wait(&status);
+					{
+						wait(&status);	
+						free(testExec);
+						free(path);
+						return (1);
+					}
 				}
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
@@ -114,5 +121,5 @@ int translateExec(char **params, char **env)
 		i++;
 		free(path);
 	}
-	return (1);
+	return (0);
 }
