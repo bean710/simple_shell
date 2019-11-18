@@ -9,9 +9,18 @@ int _getline(char **o_buff)
 	if (!buffer)
 		return (-1);
 
-	c = _getchar();
+	c = _getchar(-1);
+	if (c == EOF)
+	{
+		if (*o_buff != NULL)
+			free(*o_buff);
+		*o_buff = buffer;
+		
+		return (-1);
+	}
+
 	while (c != EOF && c == ' ')
-		c = _getchar();
+		c = _getchar(1);
 
 	index = 0;
 	while (c != EOF && c != '\n')
@@ -23,7 +32,7 @@ int _getline(char **o_buff)
 		}
 
 		buffer[index] = c;
-		c = _getchar();
+		c = _getchar(0);
 		index++;
 	}
 
@@ -76,20 +85,4 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 
 	free(ptr);
 	return (new);
-}
-
-char _getchar(void)
-{
-	char ret;
-	int val;
-
-	val = read(STDIN_FILENO, &ret, 1);
-
-	if (val == -1)
-		return ('\0');
-
-	if (val == 0)
-		return (EOF);
-
-	return (ret);
 }

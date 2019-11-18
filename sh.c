@@ -27,8 +27,6 @@ int main(int argc, char **argv, char **env)
 	{
 		n_params = NULL;
 
-		printf("New prompt\n");
-
 		if (is_term)
 			_print("⚡ ");
 
