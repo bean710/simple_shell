@@ -34,6 +34,9 @@ int _getline(char **o_buff)
 
 	*o_buff = buffer;
 
+	if (c == EOF)
+		return (-1);
+
 	return (index);
 }
 
