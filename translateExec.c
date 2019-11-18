@@ -55,8 +55,8 @@ char *_strcpy(char *dest, char *src)
  */
 int translateExec(char **params, char **env)
 {
-	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, status, j = 0;
-	char *path, *enValue, *enVariable, *enVariableToken, *testExec;
+	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0;
+	char *path, *enVariable;
 	char *param = params[0];
 
 	/*gets Parameter[0] length*/
@@ -78,41 +78,60 @@ int translateExec(char **params, char **env)
 
 		/*check for PATH environment variable*/
 		enVariable = strtok(path, "=");
-		if (_strcmp(enVariable, "PATH") == 1)
-		{
-			enValue = strtok(NULL, "=");
-			enVariableToken = strtok(enValue, ":");
+		checkEnvVariable(enVariable, tokLen, paramLen, param, params);
 
-			while (enVariableToken)
-			{
-				for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
-					;
-				testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
-				for (j = 0; j < paramLen + tokLen + 2; ++j)
-					testExec[j] = '\0';
-
-				if (testExec == NULL)
-					exit(1);
-				_strcat(testExec, enVariableToken);
-				_strcat(testExec, "/");
-				_strcat(testExec, param);
-				_strcat(testExec, "\0");
-
-				if (access(testExec, X_OK) == 0)
-				{
-					if (!fork())
-						execve(testExec, params, NULL);
-					else
-						wait(&status);
-				}
-				enVariableToken = strtok(NULL, ":");
-				free(testExec);
-			}
-			free(path);
-			break;
-		}
 		i++;
 		free(path);
 	}
 	return (1);
 }
+
+/**
+ * checkEnvVariable - a helper function to execute files if equals "PATH"
+ * @enVariable: environment variable
+ * @tokLen: token length, int
+ * @paramLen: param length, int
+ * @param: param, the first value of params
+ * @params a double pointer that points to params
+ *
+ * Return: no return
+ */
+void checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
+char **params)
+{
+	char *testExec, *enValue, *enVariableToken;
+	int status, j = 0;
+
+	if (_strcmp(enVariable, "PATH") == 1)
+	{
+		enValue = strtok(NULL, "=");
+		enVariableToken = strtok(enValue, ":");
+
+		while (enVariableToken)
+		{
+			for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
+				;
+			testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
+			for (j = 0; j < paramLen + tokLen + 2; ++j)
+				testExec[j] = '\0';
+
+			if (testExec == NULL)
+				exit(1);
+			_strcat(testExec, enVariableToken);
+			_strcat(testExec, "/");
+			_strcat(testExec, param);
+			_strcat(testExec, "\0");
+
+			if (access(testExec, X_OK) == 0)
+			{
+				if (!fork())
+					execve(testExec, params, NULL);
+				else
+					wait(&status);
+			}
+				enVariableToken = strtok(NULL, ":");
+				free(testExec);
+		}
+	}
+}
+
