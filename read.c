@@ -1,23 +1,19 @@
 #include "crikey.h"
 
-void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
-char _getchar();
-
-int main(void)
+int _getline(char **o_buff)
 {
 	char *buffer = malloc(sizeof(char) * (128 + 1));
-	size_t b_size = 128;
-	size_t index = 0;
-	int readnum = 0;
+	size_t b_size = 128, index;
 	char c;
 
 	if (!buffer)
-		exit(99);
+		return (-1);
 
 	c = _getchar();
 	while (c != EOF && c == ' ')
 		c = _getchar();
 
+	index = 0;
 	while (c != EOF && c != '\n')
 	{
 		if (index % 128 == 0 && index != 0)
@@ -33,9 +29,12 @@ int main(void)
 
 	buffer[index] = '\0';
 
-	printf("String: %s\n", buffer);
+	if (*o_buff != NULL)
+		free(*o_buff);
 
-	return (0);
+	*o_buff = buffer;
+
+	return (index);
 }
 
 /**
@@ -76,7 +75,7 @@ void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size)
 	return (new);
 }
 
-char _getchar()
+char _getchar(void)
 {
 	char ret;
 	int val;

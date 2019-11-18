@@ -11,7 +11,6 @@
 int main(int argc, char **argv, char **env)
 {
 	char *input = NULL;
-	size_t len = 0;
 	char **params;
 	int is_term, status;
 
@@ -31,7 +30,7 @@ int main(int argc, char **argv, char **env)
 		if (is_term)
 			_print("⚡ ");
 
-		if (getline(&input, &len, stdin) == -1)
+		if (_getline(&input) == -1)
 		{
 			free(params);
 			free(input);
@@ -44,7 +43,6 @@ int main(int argc, char **argv, char **env)
 			exit(0);
 		}
 
-		dropnl(input);
 		size = tokenize(&n_params, input);
 
 		if (size == 0)
@@ -82,22 +80,6 @@ int main(int argc, char **argv, char **env)
 
 	free(input);
 	return (0);
-}
-
-/**
- * dropnl - Removes the newline from the end of a string
- * @src: Pointer to the string to manipulate
- */
-void dropnl(char *src)
-{
-	for (; *src; src++)
-	{
-		if (*src == '\n')
-		{
-			*src = '\0';
-			return;
-		}
-	}
 }
 
 /**

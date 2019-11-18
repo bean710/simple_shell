@@ -32,5 +32,8 @@ int _print_s(char *src, char *end);
 int check_builtins(int argnum, char **args, char **env);
 int _atoi(char *s);
 void freenodes(token_t *head);
+void *_realloc(void *ptr, unsigned int old_size, unsigned int new_size);
+char _getchar(void);
+int _getline(char **o_buff);
 
 #endif
