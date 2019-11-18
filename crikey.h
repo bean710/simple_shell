@@ -34,5 +34,6 @@ int _atoi(char *s);
 void freenodes(token_t *head);
 void checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
 char **params);
+int helper(int size, char **params, token_t *n_params, char **env);
 
 #endif
