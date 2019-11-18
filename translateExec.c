@@ -92,7 +92,7 @@ int translateExec(char **params, char **env)
  * @tokLen: token length, int
  * @paramLen: param length, int
  * @param: param, the first value of params
- * @params a double pointer that points to params
+ * @params: a double pointer that points to params
  *
  * Return: no return
  */
