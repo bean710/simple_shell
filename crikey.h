@@ -32,5 +32,7 @@ int _print_s(char *src, char *end);
 int check_builtins(int argnum, char **args, char **env);
 int _atoi(char *s);
 void freenodes(token_t *head);
+void checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
+char **params);
 
 #endif
