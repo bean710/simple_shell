@@ -55,7 +55,7 @@ char *_strcpy(char *dest, char *src)
  */
 int translateExec(char **params, char **env)
 {
-	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0;
+	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, ret = 0;
 	char *path, *enVariable;
 	char *param = params[0];
 
@@ -78,12 +78,17 @@ int translateExec(char **params, char **env)
 
 		/*check for PATH environment variable*/
 		enVariable = strtok(path, "=");
-		checkEnvVariable(enVariable, tokLen, paramLen, param, params);
-
+		ret = checkEnvVariable(enVariable, tokLen, paramLen, param, params,
+path);
+		if (ret == 1)
+		{
+			ret = 0;
+			return (1);
+		}
 		i++;
 		free(path);
 	}
-	return (1);
+	return (ret);
 }
 
 /**
@@ -96,8 +101,8 @@ int translateExec(char **params, char **env)
  *
  * Return: no return
  */
-void checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params)
+int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
+char **params, char *path)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
@@ -127,11 +132,16 @@ char **params)
 				if (!fork())
 					execve(testExec, params, NULL);
 				else
-					wait(&status);
+					wait(&status);	
+					free(testExec);
+					free(path);
+					return (1);
 			}
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
 		}
 	}
+
+	return (0);
 }
 
