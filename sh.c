@@ -82,14 +82,16 @@ int helper(int size, char **params, token_t *n_params, char **env)
 	}
 
 	if (!translateExec(params, env))
-		printf("Command not found: %s\n", params[0]);
-	else if (access(params[0], X_OK) == 0)
 	{
-		printf("Found something!\n");
-		if (!fork())
-			execve(params[0], params, NULL);
+		if (access(params[0], X_OK) == 0)
+		{
+			if (!fork())
+				execve(params[0], params, NULL);
+			else
+				wait(&status);
+		}
 		else
-			wait(&status);
+			printf("Command not found: %s\n", params[0]);
 	}
 
 	return (0);
