@@ -98,7 +98,7 @@ path);
  * @paramLen: param length, int
  * @param: param, the first value of params
  * @params: a double pointer that points to params
- *
+ * @path: the path
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
@@ -132,7 +132,7 @@ char **params, char *path)
 				if (!fork())
 					execve(testExec, params, NULL);
 				else
-					wait(&status);	
+					wait(&status);
 					free(testExec);
 					free(path);
 					return (1);
