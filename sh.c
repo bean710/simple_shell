@@ -88,13 +88,21 @@ int helper(int size, char **params, token_t *n_params, char **env)
 			if (!fork())
 				execve(params[0], params, NULL);
 			else
+			{
 				wait(&status);
+				free(params);
+				freenodes(n_params);
+				return (1);
+			}
 		}
 		else
 			printf("Command not found: %s\n", params[0]);
-
+	}
+	else
+	{
 		free(params);
 		freenodes(n_params);
+		return (1);
 	}
 
 	return (0);
