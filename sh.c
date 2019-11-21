@@ -1,5 +1,7 @@
 #include "crikey.h"
 
+#define UNUSED __attribute__((unused))
+
 /**
  * main - main function of a program
  * @argc: argument count
@@ -8,8 +10,7 @@
  *
  * Return: none
  */
-int main(int argc __attribute__((unused)), char **argv __attribute__((unused))
-, char **env)
+int main(int argc unused, char **argv unused, char **env)
 {
 	char *input = NULL, **params = NULL;
 	size_t len = 0;
