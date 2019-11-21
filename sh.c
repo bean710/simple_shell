@@ -10,7 +10,7 @@
  *
  * Return: none
  */
-int main(int argc unused, char **argv unused, char **env)
+int main(int argc UNUSED, char **argv UNUSED, char **env)
 {
 	char *input = NULL, **params = NULL;
 	size_t len = 0;
@@ -93,6 +93,9 @@ int helper(int size, char **params, token_t *n_params, char **env)
 		}
 		else
 			printf("Command not found: %s\n", params[0]);
+
+		free(params);
+		freenodes(n_params);
 	}
 
 	return (0);
