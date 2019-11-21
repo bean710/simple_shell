@@ -1,0 +1,41 @@
+.TH SHELL 3 "21 November 2019" "1.0" "shell man page"
+.SH NAME
+lightning - lightning shell
+
+
+.SH SYNOPSIS
+lightning [options] [file]
+
+
+.SH DESCRIPTION
+
+.B lightning
+is a command language interpreter that executes commands read from the standard
+input or from a file.
+
+.B Overview
+
+The lightning is a command that reads lines for either a file or the terminal,
+iterprets them, and generally executes other commands.
+
+.B Lexical Structure
+
+lightning reads input in terms of lines from a file and breaks it up into words
+at whitespace.
+
+.B Commands
+
+The lightning interprets the words it reads according to a language, the
+specification of which is outside the scope of this man page.  Essentially
+though, a line is read and if the first word of the line (or after a control
+operator) is not a reserved word, then the shell has recognized a simple
+command. 
+Otherwise, a complex command or some other special construct may have been
+recognized.
+
+.SH BUGS
+No known bugs.
+
+.SH AUTHOR
+Ben Keener (1052@holbertonschool.com) and Kevin Paul Apostol
+(858@holbertoschool.com)
