@@ -11,9 +11,9 @@
  */
 int main(int argc UNUSED, char **argv UNUSED, char **env)
 {
-	char *input = NULL, **params = NULL;
+	char *input = NULL;
 	size_t len = 0;
-	int is_term, size, ret_val_helper = 0;
+	int is_term, size;
 	token_t *n_params = NULL;
 
 	is_term = isatty(STDIN_FILENO);
@@ -26,9 +26,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 			_print("⚡ ");
 		if (getline(&input, &len, stdin) == -1)
 		{
-			free(params);
 			free(input);
-			freenodes(n_params);
 			if (is_term)
 			{
 				_print("\n");
@@ -38,14 +36,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 		}
 		dropnl(input);
 		size = tokenize(&n_params, input);
-		ret_val_helper = helper(size, params, n_params, env);
-		if (ret_val_helper == 1)
-		{
-			ret_val_helper = 0;
-			continue;
-		}
-		free(params);
-		freenodes(n_params);
+		helper(size, n_params, env);
 	}
 	free(input);
 	return (0);
@@ -60,9 +51,10 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
  *
  * Return: integer value, to determine the to 1 continue or 0 not
  */
-int helper(int size, char **params, token_t *n_params, char **env)
+int helper(int size, token_t *n_params, char **env)
 {
 	token_t *tmp;
+	char **params;
 	int i, status;
 
 	if (size == 0)
@@ -101,7 +93,6 @@ int helper(int size, char **params, token_t *n_params, char **env)
 	else
 	{
 		free(params);
-		freenodes(n_params);
 		return (1);
 	}
 
