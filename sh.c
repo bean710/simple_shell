@@ -1,26 +1,20 @@
 #include "crikey.h"
 
+#define UNUSED __attribute__((unused))
+
 /**
  * main - main function of a program
- * @argc: argument count
- * @argv: argument vector
+ * @UNUSED: Macro for unused parameters
  * @env: environment
  *
  * Return: none
  */
-int main(int argc, char **argv, char **env)
+int main(int argc UNUSED, char **argv UNUSED, char **env)
 {
-	char *input = NULL;
+	char *input = NULL, **params = NULL;
 	size_t len = 0;
-	char **params;
-	int is_term, status;
-
+	int is_term, size, ret_val_helper = 0;
 	token_t *n_params = NULL;
-	token_t *tmp;
-	int size, i;
-
-	(void)argc;
-	(void)argv;
 
 	is_term = isatty(STDIN_FILENO);
 
@@ -30,7 +24,6 @@ int main(int argc, char **argv, char **env)
 
 		if (is_term)
 			_print("⚡ ");
-
 		if (getline(&input, &len, stdin) == -1)
 		{
 			free(params);
@@ -43,44 +36,67 @@ int main(int argc, char **argv, char **env)
 			}
 			exit(0);
 		}
-
 		dropnl(input);
 		size = tokenize(&n_params, input);
-
-		if (size == 0)
-			continue;
-
-		params = malloc(sizeof(char *) * (size + 1));
-
-		for (i = 0, tmp = n_params; tmp; tmp = tmp->next, ++i)
-			params[i] = tmp->str;
-
-		params[i] = NULL;
-		if (check_builtins(size, params, env))
+		ret_val_helper = helper(size, params, n_params, env);
+		if (ret_val_helper == 1)
 		{
-			free(params);
-			freenodes(n_params);
+			ret_val_helper = 0;
 			continue;
 		}
+		free(params);
+		freenodes(n_params);
+	}
+	free(input);
+	return (0);
+}
 
-		if (!translateExec(params, env))
+/**
+ * helper - helper for main
+ * @size: size
+ * @params: parameters
+ * @n_params: node parameters
+ * @env: contains the environment variables
+ *
+ * Return: integer value, to determine the to 1 continue or 0 not
+ */
+int helper(int size, char **params, token_t *n_params, char **env)
+{
+	token_t *tmp;
+	int i, status;
+
+	if (size == 0)
+		return (1);
+
+	params = malloc(sizeof(char *) * (size + 1));
+
+	for (i = 0, tmp = n_params; tmp; tmp = tmp->next, ++i)
+		params[i] = tmp->str;
+
+	params[i] = NULL;
+	if (check_builtins(size, params, env))
+	{
+		free(params);
+		freenodes(n_params);
+		return (1);
+	}
+
+	if (!translateExec(params, env))
+	{
+		if (access(params[0], X_OK) == 0)
 		{
-			if (access(params[0], X_OK) == 0)
-			{
-				if (!fork())
-					execve(params[0], params, NULL);
-				else
-					wait(&status);
-			}
+			if (!fork())
+				execve(params[0], params, NULL);
 			else
-				printf("Command not found: %s\n", params[0]);
+				wait(&status);
 		}
+		else
+			printf("Command not found: %s\n", params[0]);
 
 		free(params);
 		freenodes(n_params);
 	}
 
-	free(input);
 	return (0);
 }
 
