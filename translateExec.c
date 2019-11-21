@@ -82,7 +82,6 @@ int translateExec(char **params, char **env)
 path);
 		if (ret == 1)
 		{
-<<<<<<< HEAD
 			ret = 0;
 			return (1);
 		}
@@ -107,11 +106,6 @@ char **params, char *path)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
-=======
-			enValue = strtok(NULL, "=");
-			printf("enValue: %s\n", enValue);
-			enVariableToken = strtok(enValue, ":");
->>>>>>> master
 
 	if (_strcmp(enVariable, "PATH") == 1)
 	{
@@ -135,7 +129,6 @@ char **params, char *path)
 
 			if (access(testExec, X_OK) == 0)
 			{
-<<<<<<< HEAD
 				if (!fork())
 					execve(testExec, params, NULL);
 				else
@@ -144,42 +137,10 @@ char **params, char *path)
 					free(path);
 					return (1);
 			}
-=======
-				_print_s("Token: ", enVariableToken);
-				for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
-					;
-				testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
-				for (j = 0; j < paramLen + tokLen + 2; ++j)
-					testExec[j] = '\0';
-
-				if (testExec == NULL)
-					exit(1);
-				_strcat(testExec, enVariableToken);
-				_strcat(testExec, "/");
-				_strcat(testExec, param);
-				_strcat(testExec, "\0");
-
-				if (access(testExec, X_OK) == 0)
-				{
-					if (!fork())
-						execve(testExec, params, NULL);
-					else
-					{
-						wait(&status);	
-						free(testExec);
-						free(path);
-						return (1);
-					}
-				}
->>>>>>> master
 				enVariableToken = strtok(NULL, ":");
 				free(testExec);
 		}
 	}
-<<<<<<< HEAD
-
-=======
->>>>>>> master
 	return (0);
 }
 
