@@ -4,8 +4,7 @@
 
 /**
  * main - main function of a program
- * @argc: argument count
- * @argv: argument vector
+ * @UNUSED: Macro for unused parameters
  * @env: environment
  *
  * Return: none
