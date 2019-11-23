@@ -48,8 +48,11 @@ int tokenize(token_t **head, char *input)
 
 	while (tmp != NULL)
 	{
-		len++;
-		append_token(head, tmp);
+		if (*tmp != '\0')
+		{
+			len++;
+			append_token(head, tmp);
+		}
 		tmp = _strtok(NULL, ' ');
 	}
 
