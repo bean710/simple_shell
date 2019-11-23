@@ -29,11 +29,12 @@ char *_strcpy(char *dest, char *src);
 int tokenize(token_t **head, char *input);
 int _print(char *src);
 int _print_s(char *src, char *end);
-int check_builtins(int argnum, char **args, char **env);
+int check_builtins(int argnum, char **args, char **env, char *input, token_t
+*n_params);
 int _atoi(char *s);
 void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
 char **params, char *path);
-int helper(int size, token_t *n_params, char **env);
+void helper(int size, token_t *n_params, char **env, char *input);
 
 #endif
