@@ -24,6 +24,22 @@ char *_strcat(char *dest, char *src)
 	return (dest);
 }
 
+char *_strdup(char *src)
+{
+	size_t len, i;
+	char *ret;
+
+	for (len = 0; src[len]; ++len)
+		;
+
+	ret = malloc(sizeof(char) * (len + 1));
+
+	for (i = 0; src[i]; ++i)
+		ret[i] = src[i];
+	ret[i] = '\0';
+
+	return (ret);
+}
 
 /**
  * _strcpy - copies the string pointed to by src
@@ -58,6 +74,7 @@ int translateExec(char **params, char **env)
 	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, ret = 0;
 	char *path, *enVariable;
 	char *param = params[0];
+	char *cwd;
 
 	/*gets Parameter[0] length*/
 	for (paramLen = 0; param[paramLen]; paramLen++)
@@ -77,9 +94,11 @@ int translateExec(char **params, char **env)
 		_strcpy(path, enVariable);
 
 		/*check for PATH environment variable*/
-		enVariable = strtok(path, "=");
+		enVariable = _strtok(path, '=');
+		cwd = malloc(sizeof(char) * 1024);
 		ret = checkEnvVariable(enVariable, tokLen, paramLen, param, params,
-path);
+path, cwd);
+		free(cwd);
 		if (ret == 1)
 		{
 			ret = 0;
@@ -102,18 +121,21 @@ path);
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path)
+char **params, char *path, char *cwd)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
 
 	if (_strcmp(enVariable, "PATH") == 1)
 	{
-		enValue = strtok(NULL, "=");
-		enVariableToken = strtok(enValue, ":");
+		enValue = _strtok(NULL, '=');
+		enVariableToken = _strtok(enValue, ':');
 
 		while (enVariableToken)
 		{
+			if (*enVariableToken == '\0')
+				enVariableToken = getcwd(cwd, 1024);
+
 			for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
 				;
 			testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
@@ -137,8 +159,8 @@ char **params, char *path)
 					free(path);
 					return (1);
 			}
-				enVariableToken = strtok(NULL, ":");
-				free(testExec);
+			enVariableToken = _strtok(NULL, ':');
+			free(testExec);
 		}
 	}
 	return (0);
