@@ -34,6 +34,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 			}
 			exit(0);
 		}
+		input = strtok(input, "#");
 		dropnl(input);
 		size = tokenize(&n_params, input);
 		helper(size, n_params, env, input);
