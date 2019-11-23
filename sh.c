@@ -125,22 +125,13 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 *n_params)
 {
 	size_t i;
-	int exit_val;
 
 	if (argnum == 0)
 		return (0);
 
 	if (_strcmp(args[0], "exit"))
 	{
-		if (argnum > 1)
-		{
-			exit_val = atoi(args[1]);
-			exit(exit_val);
-		}
-		freenodes(n_params);
-		free(input);
-		free(args);
-		exit(0);
+		biexit(n_params, input, args, argnum);
 	}
 	else if (_strcmp(args[0], "env"))
 	{

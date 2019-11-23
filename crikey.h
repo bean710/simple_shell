@@ -36,5 +36,6 @@ void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
 char **params, char *path);
 void helper(int size, token_t *n_params, char **env, char *input);
+void biexit(token_t *n_params, char *input, char **args, int argnum);
 
 #endif
