@@ -24,23 +24,6 @@ char *_strcat(char *dest, char *src)
 	return (dest);
 }
 
-char *_strdup(char *src)
-{
-	size_t len, i;
-	char *ret;
-
-	for (len = 0; src[len]; ++len)
-		;
-
-	ret = malloc(sizeof(char) * (len + 1));
-
-	for (i = 0; src[i]; ++i)
-		ret[i] = src[i];
-	ret[i] = '\0';
-
-	return (ret);
-}
-
 /**
  * _strcpy - copies the string pointed to by src
  * @dest: pointer
@@ -118,6 +101,8 @@ path, cwd);
  * @param: param, the first value of params
  * @params: a double pointer that points to params
  * @path: the path
+ * @cwd: Pointer to the buffer to store the current working directory
+ *
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
@@ -130,7 +115,6 @@ char **params, char *path, char *cwd)
 	{
 		enValue = _strtok(NULL, '=');
 		enVariableToken = _strtok(enValue, ':');
-
 		while (enVariableToken)
 		{
 			if (*enVariableToken == '\0')

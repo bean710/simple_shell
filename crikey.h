@@ -25,7 +25,6 @@ token_t *append_token(token_t **head, char *str);
 int _strcmp(char *s1, char *s2);
 int translateExec(char **params, char **env);
 char *_strcat(char *dest, char *src);
-char *_strdup(char *src);
 char *_strcpy(char *dest, char *src);
 int tokenize(token_t **head, char *input);
 int _print(char *src);
