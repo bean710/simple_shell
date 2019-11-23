@@ -36,7 +36,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 		}
 		dropnl(input);
 		size = tokenize(&n_params, input);
-		helper(size, n_params, env);
+		helper(size, n_params, env, input);
 	}
 	free(input);
 	return (0);
@@ -49,29 +49,25 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
  * @n_params: node parameters
  * @env: contains the environment variables
  *
- * Return: integer value, to determine the to 1 continue or 0 not
+ * Return: no return
  */
-int helper(int size, token_t *n_params, char **env)
+void helper(int size, token_t *n_params, char **env, char *input)
 {
 	token_t *tmp;
 	char **params;
 	int i, status;
 
 	if (size == 0)
-		return (1);
+		return;
 
 	params = malloc(sizeof(char *) * (size + 1));
 
 	for (i = 0, tmp = n_params; tmp; tmp = tmp->next, ++i)
 		params[i] = tmp->str;
-
 	params[i] = NULL;
-	if (check_builtins(size, params, env))
-	{
-		free(params);
-		freenodes(n_params);
-		return (1);
-	}
+
+	if (check_builtins(size, params, env, input, n_params))
+		return;
 
 	if (!translateExec(params, env))
 	{
@@ -84,7 +80,8 @@ int helper(int size, token_t *n_params, char **env)
 				wait(&status);
 				free(params);
 				freenodes(n_params);
-				return (1);
+				free(input);
+				return;
 			}
 		}
 		else
@@ -93,10 +90,9 @@ int helper(int size, token_t *n_params, char **env)
 	else
 	{
 		free(params);
-		return (1);
+		freenodes(n_params);
+		return;
 	}
-
-	return (0);
 }
 
 /**
@@ -123,7 +119,8 @@ void dropnl(char *src)
  * @env: environment variable
  * Return: 1 if builtin found, 0 otherwise
  */
-int check_builtins(int argnum, char **args, char **env)
+int check_builtins(int argnum, char **args, char **env, char *input, token_t
+*n_params)
 {
 	size_t i;
 	int exit_val;
@@ -138,6 +135,9 @@ int check_builtins(int argnum, char **args, char **env)
 			exit_val = atoi(args[1]);
 			exit(exit_val);
 		}
+		freenodes(n_params);
+		free(input);
+		free(args);
 		exit(0);
 	}
 	else if (_strcmp(args[0], "env"))
@@ -147,6 +147,9 @@ int check_builtins(int argnum, char **args, char **env)
 			_print(env[i]);
 			_print("\n");
 		}
+		freenodes(n_params);
+		free(input);
+		free(args);
 		return (1);
 	}
 
