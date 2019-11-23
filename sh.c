@@ -80,7 +80,6 @@ void helper(int size, token_t *n_params, char **env, char *input)
 				wait(&status);
 				free(params);
 				freenodes(n_params);
-				free(input);
 				return;
 			}
 		}
