@@ -45,9 +45,9 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 /**
  * helper - helper for main
  * @size: size
- * @params: parameters
  * @n_params: node parameters
  * @env: contains the environment variables
+ * @input: Contains the raw user input
  *
  * Return: no return
  */
@@ -117,6 +117,9 @@ void dropnl(char *src)
  * @args: Pointer to the first pointer in an array of pointers each pointing
  * to a string
  * @env: environment variable
+ * @n_params: Pointer to the linked list of parameter nodes
+ * @input: Pointer to the raw user input
+ *
  * Return: 1 if builtin found, 0 otherwise
  */
 int check_builtins(int argnum, char **args, char **env, char *input, token_t
