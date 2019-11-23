@@ -87,12 +87,8 @@ void helper(int size, token_t *n_params, char **env, char *input)
 		else
 			printf("Command not found: %s\n", params[0]);
 	}
-	else
-	{
-		free(params);
-		freenodes(n_params);
-		return;
-	}
+	free(params);
+	freenodes(n_params);
 }
 
 /**
