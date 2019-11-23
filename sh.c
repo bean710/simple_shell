@@ -89,7 +89,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 			}
 		}
 		else
-			printf("sh: %d: %s: not found\n", tally, params[0]);
+			printComNotFound(tally, params[0]);
 	}
 	else
 	{
