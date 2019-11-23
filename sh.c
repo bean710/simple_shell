@@ -134,7 +134,7 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 	{
 		if (argnum > 1)
 		{
-			exit_val = atoi(args[1]);
+			exit_val = _atoi(args[1]);
 			exit(exit_val);
 		}
 		freenodes(n_params);
@@ -150,7 +150,6 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 			_print("\n");
 		}
 		freenodes(n_params);
-		free(input);
 		free(args);
 		return (1);
 	}
