@@ -34,7 +34,7 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 int _atoi(char *s);
 void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path, char *cwd, int *exitStatus);
+char **params, char *path, char *cwd, int *exitStatus, char **env);
 void helper(int size, token_t *n_params, char **env, char *input);
 void biexit(token_t *n_params, char *input, char **args, int argnum, int);
 void replaceTabs(char *src);
@@ -49,6 +49,7 @@ void bihelp(char **args, token_t *n_params);
 void concatTok(char *testExec, char *param, char *enVarToken);
 int compareStat(char *command, int *exitStat, char **params, token_t *n_params,
 int tally);
-int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally);
+int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally,
+		char **env);
 
 #endif

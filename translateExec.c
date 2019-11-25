@@ -97,7 +97,7 @@ int translateExec(char **params, char **env, int *exitStatus)
 		enVariable = _strtok(path, '=');
 		cwd = malloc(sizeof(char) * 1024);
 		ret = checkEnvVariable(enVariable, tokLen, paramLen, param, params,
-path, cwd, exitStatus);
+path, cwd, exitStatus, env);
 		free(cwd);
 		if (ret == 1)
 		{
@@ -124,7 +124,7 @@ path, cwd, exitStatus);
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path, char *cwd, int *exitStatus)
+char **params, char *path, char *cwd, int *exitStatus, char **env)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
@@ -154,7 +154,7 @@ char **params, char *path, char *cwd, int *exitStatus)
 			if (access(testExec, X_OK) == 0)
 			{
 				if (!fork())
-					execve(testExec, params, NULL);
+					execve(testExec, params, env);
 				else
 					wait(&status);
 					free(testExec);

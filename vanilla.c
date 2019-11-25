@@ -9,14 +9,15 @@
  *
  * Return: returns 0 if success, returns 1 if failed
  */
-int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally)
+int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally,
+		char **env)
 {
 	int status;
 
 	if (access(params[0], X_OK) == 0)
 	{
 		if (!fork())
-			execve(params[0], params, NULL);
+			execve(params[0], params, env);
 		else
 		{
 			*exitStat = 0;

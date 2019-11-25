@@ -80,7 +80,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 	{
 		if (compareStat(params[0], &exitStat, params, n_params, tally) == 0)
 			return;
-		if (checkVanilla(params, &exitStat, n_params, tally) == 0)
+		if (checkVanilla(params, &exitStat, n_params, tally, env) == 0)
 			return;
 	}
 	free(params);
