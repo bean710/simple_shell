@@ -23,20 +23,20 @@ typedef struct token_s
 void dropnl(char *src);
 token_t *append_token(token_t **head, char *str);
 int _strcmp(char *s1, char *s2);
-int translateExec(char **params, char **env);
+int translateExec(char **params, char **env, int *exitStatus);
 char *_strcat(char *dest, char *src);
 char *_strcpy(char *dest, char *src);
 int tokenize(token_t **head, char *input);
 int _print(char *src);
 int _print_s(char *src, char *end);
 int check_builtins(int argnum, char **args, char **env, char *input, token_t
-*n_params);
+*n_params, int exitStat);
 int _atoi(char *s);
 void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path, char *);
+char **params, char *path, char *cwd, int *exitStatus);
 void helper(int size, token_t *n_params, char **env, char *input);
-void biexit(token_t *n_params, char *input, char **args, int argnum);
+void biexit(token_t *n_params, char *input, char **args, int argnum, int);
 void replaceTabs(char *src);
 void id_print(int n);
 void printExitStatus(int tally, int exitStatus);
@@ -46,5 +46,9 @@ char *_strtok(char *src, char delim);
 char *getEnvVal(char **env, char *match);
 void bienv(char **env, token_t *n_params, char **args);
 void bihelp(char **args, token_t *n_params);
+void concatTok(char *testExec, char *param, char *enVarToken);
+int compareStat(char *command, int *exitStat, char **params, token_t *n_params,
+int tally);
+int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally);
 
 #endif

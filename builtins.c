@@ -8,17 +8,18 @@
  * @env: environment variable
  * @n_params: Pointer to the linked list of parameter nodes
  * @input: Pointer to the raw user input
+ * @exitStat: Status to exit with if status otherwise unspecified
  *
  * Return: 1 if builtin found, 0 otherwise
  */
 int check_builtins(int argnum, char **args, char **env, char *input, token_t
-*n_params)
+*n_params, int exitStat)
 {
 	if (argnum == 0)
 		return (0);
 
 	if (_strcmp(args[0], "exit"))
-		biexit(n_params, input, args, argnum);
+		biexit(n_params, input, args, argnum, exitStat);
 	else if (_strcmp(args[0], "env"))
 	{
 		bienv(env, n_params, args);
@@ -63,8 +64,10 @@ void bihelp(char **args, token_t *n_params)
  * @input: Pointer to the raw input
  * @args: Pointer to the arguments
  * @argnum: Number of arguments
+ * @exitStat: Status to exit with if no other status is specified
  */
-void biexit(token_t *n_params, char *input, char **args, int argnum)
+void biexit(token_t *n_params, char *input, char **args, int argnum,
+		int exitStat)
 {
 	int exit_val;
 
@@ -76,7 +79,7 @@ void biexit(token_t *n_params, char *input, char **args, int argnum)
 	freenodes(n_params);
 	free(input);
 	free(args);
-	exit(0);
+	exit(exitStat);
 }
 
 /**
