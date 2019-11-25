@@ -16,6 +16,8 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 	int is_term, size;
 	token_t *n_params = NULL;
 
+	signal(SIGINT, SIG_IGN);
+
 	is_term = isatty(STDIN_FILENO);
 
 	while (1)
@@ -34,6 +36,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 			}
 			exit(0);
 		}
+		input = strtok(input, "#");
 		dropnl(input);
 		size = tokenize(&n_params, input);
 		helper(size, n_params, env, input);
@@ -86,12 +89,8 @@ void helper(int size, token_t *n_params, char **env, char *input)
 		else
 			printf("Command not found: %s\n", params[0]);
 	}
-	else
-	{
-		free(params);
-		freenodes(n_params);
-		return;
-	}
+	free(params);
+	freenodes(n_params);
 }
 
 /**
@@ -141,7 +140,6 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 			_print("\n");
 		}
 		freenodes(n_params);
-		free(input);
 		free(args);
 		return (1);
 	}

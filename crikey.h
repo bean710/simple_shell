@@ -34,8 +34,10 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 int _atoi(char *s);
 void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path);
+char **params, char *path, char *);
 void helper(int size, token_t *n_params, char **env, char *input);
 void biexit(token_t *n_params, char *input, char **args, int argnum);
+char *_strtok(char *src, char delim);
+char *getEnvVal(char **env, char *match);
 
 #endif
