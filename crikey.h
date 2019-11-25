@@ -34,7 +34,7 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 int _atoi(char *s);
 void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path, int *exitStatus);
+char **params, char *path, char *cwd, int *exitStatus);
 void helper(int size, token_t *n_params, char **env, char *input);
 void replaceTabs(char *src);
 void id_print(int n);

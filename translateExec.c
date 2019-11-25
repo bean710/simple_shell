@@ -106,7 +106,7 @@ path, cwd, exitStatus);
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path, int *cwd, int *exitStatus)
+char **params, char *path, char *cwd, int *exitStatus)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
