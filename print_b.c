@@ -4,7 +4,6 @@
  * id_print - prints percent i and percent d
  * @n: the integer to print
  *
- *
  * Return: integer
  */
 void id_print(int n)
@@ -44,7 +43,7 @@ void printExitStatus(int tally, int exitStatus)
 /**
  * printComNotFound - prints the exit status to the user
  * @tally: the tally number
- * @exitStatus: exit status of the child
+ * @command: exit status of the child
  *
  * Return: no return
  */
