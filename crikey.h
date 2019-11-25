@@ -36,6 +36,11 @@ void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
 char **params, char *path, char *);
 void helper(int size, token_t *n_params, char **env, char *input);
+void replaceTabs(char *src);
+void id_print(int n);
+void printExitStatus(int tally, int exitStatus);
+void printComNotFound(int tally, char *command);
+int _putchar(char c);
 char *_strtok(char *src, char delim);
 char *getEnvVal(char **env, char *match);
 

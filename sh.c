@@ -38,6 +38,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 		}
 		input = strtok(input, "#");
 		dropnl(input);
+		replaceTabs(input);
 		size = tokenize(&n_params, input);
 		helper(size, n_params, env, input);
 	}
@@ -59,6 +60,9 @@ void helper(int size, token_t *n_params, char **env, char *input)
 	token_t *tmp;
 	char **params;
 	int i, status;
+	static int tally;
+
+	tally++;
 
 	if (size == 0)
 		return;
@@ -87,7 +91,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 			}
 		}
 		else
-			printf("Command not found: %s\n", params[0]);
+			printComNotFound(tally, params[0]);
 	}
 	free(params);
 	freenodes(n_params);
@@ -99,11 +103,13 @@ void helper(int size, token_t *n_params, char **env, char *input)
  */
 void dropnl(char *src)
 {
-	for (; *src; src++)
+	int i;
+
+	for (i = 0; src[i]; i++)
 	{
-		if (*src == '\n')
+		if (src[i] == '\n')
 		{
-			*src = '\0';
+			*(src + i) = '\0';
 			return;
 		}
 	}

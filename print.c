@@ -113,3 +113,21 @@ int _atoi(char *s)
 
 	return (num * neg);
 }
+
+/**
+ * replaceTabs - replaces tabs to spaces
+ * @src: Pointer to the string to manipulate
+ */
+void replaceTabs(char *src)
+{
+	int i;
+
+	for (i = 0; src[i]; i++)
+	{
+		if (src[i] == '\t')
+		{
+			*(src + i) = ' ';
+		}
+	}
+}
+
