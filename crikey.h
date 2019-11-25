@@ -36,7 +36,7 @@ void freenodes(token_t *head);
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
 char **params, char *path, char *cwd, int *exitStatus);
 void helper(int size, token_t *n_params, char **env, char *input);
-void biexit(token_t *n_params, char *input, char **args, int argnum);
+void biexit(token_t *n_params, char *input, char **args, int argnum, int);
 void replaceTabs(char *src);
 void id_print(int n);
 void printExitStatus(int tally, int exitStatus);
