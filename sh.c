@@ -16,6 +16,8 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 	int is_term, size;
 	token_t *n_params = NULL;
 
+	signal(SIGINT, SIG_IGN);
+
 	is_term = isatty(STDIN_FILENO);
 
 	while (1)
