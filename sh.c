@@ -58,7 +58,8 @@ void helper(int size, token_t *n_params, char **env, char *input)
 	token_t *tmp;
 	char **params;
 	int i, status;
-	static int tally = 0;
+	static int tally = 0, exitStat;
+	struct stat ret;
 
 	tally++;
 
@@ -71,17 +72,29 @@ void helper(int size, token_t *n_params, char **env, char *input)
 		params[i] = tmp->str;
 	params[i] = NULL;
 
-	if (check_builtins(size, params, env, input, n_params))
+	if (check_builtins(size, params, env, input, n_params, exitStat))
 		return;
 
-	if (!translateExec(params, env))
-	{
+	if (!translateExec(params, env, &exitStat))
+	{		
+
+		if ((stat(params[0], &ret) == 0 && access(params[0], X_OK) != 0) ||
+exitStat == 126)
+		{
+			exitStat = 126;
+			printComNotFound(tally, params[0]);
+			free(params);
+			freenodes(n_params);
+			return;
+		}
+
 		if (access(params[0], X_OK) == 0)
 		{
 			if (!fork())
-				execve(params[0], params, NULL);
+					execve(params[0], params, NULL);	
 			else
 			{
+				exitStat = 0;
 				wait(&status);
 				free(params);
 				freenodes(n_params);
@@ -89,7 +102,10 @@ void helper(int size, token_t *n_params, char **env, char *input)
 			}
 		}
 		else
+		{
+			exitStat = 127;
 			printComNotFound(tally, params[0]);
+		}
 	}
 	else
 	{
@@ -129,7 +145,7 @@ void dropnl(char *src)
  * Return: 1 if builtin found, 0 otherwise
  */
 int check_builtins(int argnum, char **args, char **env, char *input, token_t
-*n_params)
+*n_params, int exitStat)
 {
 	size_t i;
 	int exit_val;
@@ -147,7 +163,7 @@ int check_builtins(int argnum, char **args, char **env, char *input, token_t
 		freenodes(n_params);
 		free(input);
 		free(args);
-		exit(0);
+		exit(exitStat);
 	}
 	else if (_strcmp(args[0], "env"))
 	{
