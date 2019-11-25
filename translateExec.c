@@ -25,6 +25,22 @@ char *_strcat(char *dest, char *src)
 }
 
 /**
+ * concatTok - concatenates a token
+ * @testExec: the string to be concatinated
+ * @param: the command, input from the user
+ * @enVarToken: the tokenized directory in path
+ * Return: returns char string array
+ */
+void concatTok(char *testExec, char *param, char *enVarToken)
+{
+	_strcat(testExec, enVarToken);
+	_strcat(testExec, "/");
+	_strcat(testExec, param);
+	_strcat(testExec, "\0");
+}
+
+
+/**
  * _strcpy - copies the string pointed to by src
  * @dest: pointer
  * @src: pointer
@@ -103,6 +119,7 @@ path, cwd, exitStatus);
  * @params: a double pointer that points to params
  * @path: the path
  * @cwd: Pointer to the buffer to store the current working directory
+ * @exitStatus: the exit Status of the program
  *
  * Return: no return
  */
@@ -130,11 +147,7 @@ char **params, char *path, char *cwd, int *exitStatus)
 
 			if (testExec == NULL)
 				exit(1);
-			_strcat(testExec, enVariableToken);
-			_strcat(testExec, "/");
-			_strcat(testExec, param);
-			_strcat(testExec, "\0");
-
+			concatTok(testExec, param, enVariableToken);
 			if (stat(testExec, &ret) == 0 && access(testExec, X_OK) != 0)
 				*exitStatus = 126;
 
