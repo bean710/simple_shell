@@ -91,12 +91,8 @@ void helper(int size, token_t *n_params, char **env, char *input)
 		else
 			printComNotFound(tally, params[0]);
 	}
-	else
-	{
-		free(params);
-		freenodes(n_params);
-		return;
-	}
+	free(params);
+	freenodes(n_params);
 }
 
 /**

@@ -44,13 +44,16 @@ int tokenize(token_t **head, char *input)
 	char *tmp = NULL;
 	int len = 0;
 
-	tmp = strtok(input, " ");
+	tmp = _strtok(input, ' ');
 
 	while (tmp != NULL)
 	{
-		len++;
-		append_token(head, tmp);
-		tmp = strtok(NULL, " ");
+		if (*tmp != '\0')
+		{
+			len++;
+			append_token(head, tmp);
+		}
+		tmp = _strtok(NULL, ' ');
 	}
 
 	return (len);
