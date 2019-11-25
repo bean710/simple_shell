@@ -53,7 +53,7 @@ char *_strcpy(char *dest, char *src)
  *
  * Return: returns char string array
  */
-int translateExec(char **params, char **env)
+int translateExec(char **params, char **env, int *exitStatus)
 {
 	int i = 0, pathLen = 0, paramLen = 0, tokLen = 0, ret = 0;
 	char *path, *enVariable;
@@ -79,7 +79,7 @@ int translateExec(char **params, char **env)
 		/*check for PATH environment variable*/
 		enVariable = strtok(path, "=");
 		ret = checkEnvVariable(enVariable, tokLen, paramLen, param, params,
-path);
+path, exitStatus);
 		if (ret == 1)
 		{
 			ret = 0;
@@ -102,10 +102,11 @@ path);
  * Return: no return
  */
 int checkEnvVariable(char *enVariable, int tokLen, int paramLen, char *param,
-char **params, char *path)
+char **params, char *path, int *exitStatus)
 {
 	char *testExec, *enValue, *enVariableToken;
 	int status, j = 0;
+	struct stat ret;
 
 	if (_strcmp(enVariable, "PATH") == 1)
 	{
@@ -126,6 +127,9 @@ char **params, char *path)
 			_strcat(testExec, "/");
 			_strcat(testExec, param);
 			_strcat(testExec, "\0");
+
+			if (stat(testExec, &ret) == 0 && access(testExec, X_OK) != 0)
+				*exitStatus = 126;
 
 			if (access(testExec, X_OK) == 0)
 			{
