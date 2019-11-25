@@ -61,6 +61,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 	static int tally = 0, exitStat;
 	struct stat ret;
 
+
 	tally++;
 
 	if (size == 0)
@@ -107,12 +108,8 @@ exitStat == 126)
 			printComNotFound(tally, params[0]);
 		}
 	}
-	else
-	{
-		free(params);
-		freenodes(n_params);
-		return;
-	}
+	free(params);
+	freenodes(n_params);
 }
 
 /**

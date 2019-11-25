@@ -41,5 +41,7 @@ void id_print(int n);
 void printExitStatus(int tally, int exitStatus);
 void printComNotFound(int tally, char *command);
 int _putchar(char c);
+char *_strtok(char *src, char delim);
+char *getEnvVal(char **env, char *match);
 
 #endif
