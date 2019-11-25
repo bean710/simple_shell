@@ -16,6 +16,8 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 	int is_term, size;
 	token_t *n_params = NULL;
 
+	signal(SIGINT, SIG_IGN);
+
 	is_term = isatty(STDIN_FILENO);
 
 	while (1)
@@ -34,7 +36,7 @@ int main(int argc UNUSED, char **argv UNUSED, char **env)
 			}
 			exit(0);
 		}
-		input = strtok(input, "#");
+		input = _strtok(input, '#');
 		dropnl(input);
 		replaceTabs(input);
 		size = tokenize(&n_params, input);
@@ -128,53 +130,6 @@ void dropnl(char *src)
 			return;
 		}
 	}
-}
-
-/**
- * check_builtins - checks for builtin functions and runs
- * @argnum: Number of arguments
- * @args: Pointer to the first pointer in an array of pointers each pointing
- * to a string
- * @env: environment variable
- * @n_params: Pointer to the linked list of parameter nodes
- * @input: Pointer to the raw user input
- *
- * Return: 1 if builtin found, 0 otherwise
- */
-int check_builtins(int argnum, char **args, char **env, char *input, token_t
-*n_params, int exitStat)
-{
-	size_t i;
-	int exit_val;
-
-	if (argnum == 0)
-		return (0);
-
-	if (_strcmp(args[0], "exit"))
-	{
-		if (argnum > 1)
-		{
-			exit_val = _atoi(args[1]);
-			exit(exit_val);
-		}
-		freenodes(n_params);
-		free(input);
-		free(args);
-		exit(exitStat);
-	}
-	else if (_strcmp(args[0], "env"))
-	{
-		for (i = 0; env[i]; ++i)
-		{
-			_print(env[i]);
-			_print("\n");
-		}
-		freenodes(n_params);
-		free(args);
-		return (1);
-	}
-
-	return (0);
 }
 
 /**
