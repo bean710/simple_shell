@@ -47,5 +47,8 @@ char *getEnvVal(char **env, char *match);
 void bienv(char **env, token_t *n_params, char **args);
 void bihelp(char **args, token_t *n_params);
 void concatTok(char *testExec, char *param, char *enVarToken);
+int compareStat(char *command, int *exitStat, char **params, token_t *n_params,
+int tally);
+int checkVanilla(char **params, int *exitStat, token_t *n_params, int tally);
 
 #endif
