@@ -116,53 +116,6 @@ void dropnl(char *src)
 }
 
 /**
- * check_builtins - checks for builtin functions and runs
- * @argnum: Number of arguments
- * @args: Pointer to the first pointer in an array of pointers each pointing
- * to a string
- * @env: environment variable
- * @n_params: Pointer to the linked list of parameter nodes
- * @input: Pointer to the raw user input
- *
- * Return: 1 if builtin found, 0 otherwise
- */
-int check_builtins(int argnum, char **args, char **env, char *input, token_t
-*n_params)
-{
-	size_t i;
-	int exit_val;
-
-	if (argnum == 0)
-		return (0);
-
-	if (_strcmp(args[0], "exit"))
-	{
-		if (argnum > 1)
-		{
-			exit_val = _atoi(args[1]);
-			exit(exit_val);
-		}
-		freenodes(n_params);
-		free(input);
-		free(args);
-		exit(0);
-	}
-	else if (_strcmp(args[0], "env"))
-	{
-		for (i = 0; env[i]; ++i)
-		{
-			_print(env[i]);
-			_print("\n");
-		}
-		freenodes(n_params);
-		free(args);
-		return (1);
-	}
-
-	return (0);
-}
-
-/**
  * freenodes - frees the nodes to avoid memory leaks
  * @head: points to the first node of a linked list
  *
