@@ -59,7 +59,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 {
 	token_t *tmp;
 	char **params;
-	int i, status;
+	int i;
 	static int tally = 0, exitStat;
 
 	tally++;
