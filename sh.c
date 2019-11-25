@@ -61,8 +61,6 @@ void helper(int size, token_t *n_params, char **env, char *input)
 	char **params;
 	int i, status;
 	static int tally = 0, exitStat;
-	struct stat ret;
-
 
 	tally++;
 
@@ -80,38 +78,41 @@ void helper(int size, token_t *n_params, char **env, char *input)
 
 	if (!translateExec(params, env, &exitStat))
 	{
-
-		if ((stat(params[0], &ret) == 0 && access(params[0], X_OK) != 0) ||
-exitStat == 126)
-		{
-			exitStat = 126;
-			printComNotFound(tally, params[0]);
-			free(params);
-			freenodes(n_params);
+		if (compareStat(params[0], &exitStat, params, n_params, tally) == 0)
 			return;
-		}
-
-		if (access(params[0], X_OK) == 0)
-		{
-			if (!fork())
-				execve(params[0], params, NULL);
-			else
-			{
-				exitStat = 0;
-				wait(&status);
-				free(params);
-				freenodes(n_params);
-				return;
-			}
-		}
-		else
-		{
-			exitStat = 127;
-			printComNotFound(tally, params[0]);
-		}
+		if (checkVanilla(params, &exitStat, n_params, tally) == 0)
+			return;
 	}
 	free(params);
 	freenodes(n_params);
+}
+
+/**
+ * compareStat - compares the exitStat if 126 then frees the variables
+ * @command: the first word the user inputs
+ * @exitStat: the exit status of the program
+ * @params: the double pointer where the tokenized inputs are stored
+ * @n_params: the linked list
+ * @tally: tally number
+ *
+ * Return: returns 0 if success, returns 1 if failed
+ */
+int compareStat(char *command, int *exitStat, char **params, token_t *n_params,
+int tally)
+{
+	struct stat ret;
+
+	if ((stat(command, &ret) == 0 && access(command, X_OK) != 0) || *exitStat
+== 126)
+	{
+		*exitStat = 126;
+		printComNotFound(tally, command);
+		free(params);
+		freenodes(n_params);
+		return (0);
+	}
+
+	return (1);
 }
 
 /**
