@@ -8,6 +8,7 @@
  * @env: environment variable
  * @n_params: Pointer to the linked list of parameter nodes
  * @input: Pointer to the raw user input
+ * @exitStat: Status to exit with if status otherwise unspecified
  *
  * Return: 1 if builtin found, 0 otherwise
  */
@@ -63,7 +64,7 @@ void bihelp(char **args, token_t *n_params)
  * @input: Pointer to the raw input
  * @args: Pointer to the arguments
  * @argnum: Number of arguments
- * @exitStatus: Status to exit with if no other status is specified
+ * @exitStat: Status to exit with if no other status is specified
  */
 void biexit(token_t *n_params, char *input, char **args, int argnum,
 		int exitStat)

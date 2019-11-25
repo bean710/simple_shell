@@ -79,7 +79,7 @@ void helper(int size, token_t *n_params, char **env, char *input)
 		return;
 
 	if (!translateExec(params, env, &exitStat))
-	{		
+	{
 
 		if ((stat(params[0], &ret) == 0 && access(params[0], X_OK) != 0) ||
 exitStat == 126)
@@ -94,7 +94,7 @@ exitStat == 126)
 		if (access(params[0], X_OK) == 0)
 		{
 			if (!fork())
-					execve(params[0], params, NULL);	
+					execve(params[0], params, NULL);
 			else
 			{
 				exitStat = 0;
