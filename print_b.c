@@ -33,7 +33,7 @@ void id_print(int n)
  */
 void printExitStatus(int tally, int exitStatus)
 {
-	_print("sh: ");
+	_print("lightning: ");
 	id_print(tally);
 	_print(": ");
 	id_print(exitStatus);
@@ -49,7 +49,7 @@ void printExitStatus(int tally, int exitStatus)
  */
 void printComNotFound(int tally, char *command)
 {
-	_print("sh: ");
+	_print("lightning: ");
 	id_print(tally);
 	_print(": ");
 	_print(command);
