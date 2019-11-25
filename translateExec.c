@@ -49,6 +49,7 @@ char *_strcpy(char *dest, char *src)
  * translateExec - executes the file to a string
  * @params: contains the parameters from the user input
  * @env: contains the environment variables
+ * @exitStatus: Status to exit with
  *
  * Return: returns char string array
  */
