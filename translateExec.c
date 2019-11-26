@@ -120,6 +120,7 @@ path, cwd, exitStatus, env);
  * @path: the path
  * @cwd: Pointer to the buffer to store the current working directory
  * @exitStatus: the exit Status of the program
+ * @env: environment variable
  *
  * Return: no return
  */

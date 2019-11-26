@@ -6,6 +6,7 @@
  * @exitStat: the exit status of the program
  * @n_params: the linked list
  * @tally: tally number
+ * @env: environment variable
  *
  * Return: returns 0 if success, returns 1 if failed
  */
