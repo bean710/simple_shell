@@ -33,6 +33,31 @@ command.
 Otherwise, a complex command or some other special construct may have been
 recognized.
 
+.B ./hsh
+This executable file runs the lighting shell
+
+.SH BUILTINS
+
+.B exit
+The command the lightning shell
+
+.B env
+Prints out the environment variables
+
+
+.SH EXAMPLE
+
+$
+
+$ ls
+
+hsh main.c header.h
+
+$ exit
+
+$
+
+
 .SH BUGS
 No known bugs.
 
