@@ -40,4 +40,4 @@ Rundown of the program
 The figure below shows the overview how the program flows acting as a simple
 shell.
 
-![Program Flow](https://i.ibb.co/SBLVn7w/lightning-1.png)
+![Program Flow](https://i.ibb.co/nPhZhcg/lightning.png)
