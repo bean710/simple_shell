@@ -139,7 +139,6 @@ char **params, char *path, char *cwd, int *exitStatus, char **env)
 		{
 			if (*enVariableToken == '\0')
 				enVariableToken = getcwd(cwd, 1024);
-
 			for (tokLen = 0; enVariableToken[tokLen]; tokLen++)
 				;
 			testExec = malloc(sizeof(char) * (paramLen + tokLen + 2));
@@ -158,6 +157,7 @@ char **params, char *path, char *cwd, int *exitStatus, char **env)
 					execve(testExec, params, env);
 				else
 					wait(&status);
+					*exitStatus = 0;
 					free(testExec);
 					free(path);
 					return (1);
